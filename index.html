@@ -1,0 +1,285 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>القرآن الكريم - تطبيق متكامل</title>
+    
+    <!-- الخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS الرئيسي -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Manifest لتطبيق PWA -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+    
+    <!-- ألوان التطبيق -->
+    <meta name="theme-color" content="#2c3e50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <!-- شريط التنقل العلوي -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <i class="fas fa-book-quran"></i>
+                <h1>القرآن الكريم</h1>
+            </div>
+            <div class="controls-section">
+                <button id="themeToggle" class="control-btn" title="تبديل الوضع الليلي">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="fontSizeToggle" class="control-btn" title="حجم الخط">
+                    <i class="fas fa-text-height"></i>
+                </button>
+                <button id="searchToggle" class="control-btn" title="بحث">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- شريط البحث (مخفي افتراضيًا) -->
+        <div class="search-bar" id="searchBar">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="ابحث في الآيات...">
+                <button id="searchBtn" class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button id="closeSearch" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-filters">
+                <select id="surahFilter">
+                    <option value="all">جميع السور</option>
+                </select>
+                <button id="clearSearch" class="clear-btn">
+                    <i class="fas fa-eraser"></i> مسح
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <!-- عرض قائمة السور -->
+        <section id="surahListSection" class="content-section active">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> سور القرآن الكريم</h2>
+                <div class="section-info">
+                    <span id="surahCount">114</span> سورة
+                </div>
+            </div>
+            
+            <div class="surah-list" id="surahList">
+                <!-- سيتم تعبئة قائمة السور هنا بالجافاسكريبت -->
+            </div>
+        </section>
+        
+        <!-- عرض السورة المحددة -->
+        <section id="surahViewSection" class="content-section">
+            <div class="surah-header">
+                <button id="backBtn" class="back-btn">
+                    <i class="fas fa-arrow-right"></i> العودة
+                </button>
+                <div class="surah-title">
+                    <h2 id="currentSurahName">الفاتحة</h2>
+                    <div class="surah-meta">
+                        <span class="badge" id="currentSurahType">مكية</span>
+                        <span class="badge verses-count" id="currentSurahVerses">7 آيات</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bismillah">
+                <p>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+            </div>
+            
+            <div class="verses-container" id="versesContainer">
+                <!-- سيتم تعبئة آيات السورة هنا -->
+            </div>
+        </section>
+        
+        <!-- عرض نتائج البحث -->
+        <section id="searchResultsSection" class="content-section">
+            <div class="results-header">
+                <button id="backFromSearchBtn" class="back-btn">
+                    <i class="fas fa-arrow-right"></i> العودة
+                </button>
+                <h2>نتائج البحث</h2>
+                <div class="results-count" id="resultsCount">0 نتيجة</div>
+            </div>
+            
+            <div class="search-results" id="searchResults">
+                <!-- سيتم تعبئة نتائج البحث هنا -->
+            </div>
+        </section>
+    </main>
+
+    <!-- شريط التنقل السفلي -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <button id="homeBtn" class="nav-btn active">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </button>
+            <button id="bookmarksBtn" class="nav-btn">
+                <i class="fas fa-bookmark"></i>
+                <span>المحفوظات</span>
+            </button>
+            <button id="recitationBtn" class="nav-btn">
+                <i class="fas fa-play-circle"></i>
+                <span>التلاوة</span>
+            </button>
+            <button id="settingsBtn" class="nav-btn">
+                <i class="fas fa-cog"></i>
+                <span>الإعدادات</span>
+            </button>
+        </div>
+    </footer>
+
+    <!-- نافذة المحفوظات -->
+    <div id="bookmarksModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-bookmark"></i> الآيات المحفوظة</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="bookmarksList">
+                    <!-- سيتم تعبئة المحفوظات هنا -->
+                </div>
+                <div id="noBookmarks" class="empty-state">
+                    <i class="far fa-bookmark"></i>
+                    <p>لا توجد آيات محفوظة</p>
+                    <p class="hint">اضغط على أيقونة الإشارة المرجعية في أي آية لحفظها هنا</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة التلاوة -->
+    <div id="recitationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-play-circle"></i> التلاوة</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="recitation-controls">
+                    <div class="reciter-selection">
+                        <label for="reciterSelect">اختر القارئ:</label>
+                        <select id="reciterSelect">
+                            <option value="ar.alafasy">مشاري العفاسي</option>
+                            <option value="ar.abdulbasit">عبد الباسط عبد الصمد</option>
+                            <option value="ar.husary">محمود خليل الحصري</option>
+                            <option value="ar.minshawi">محمد صديق المنشاوي</option>
+                        </select>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <button id="playPauseBtn" class="player-btn">
+                            <i class="fas fa-play"></i> تشغيل
+                        </button>
+                        <button id="stopBtn" class="player-btn">
+                            <i class="fas fa-stop"></i> إيقاف
+                        </button>
+                    </div>
+                    
+                    <div class="current-playing">
+                        <p id="currentPlaying">لم يتم اختيار آية للقراءة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة الإعدادات -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cog"></i> الإعدادات</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-option">
+                    <label for="fontFamilySelect">خط العرض:</label>
+                    <select id="fontFamilySelect">
+                        <option value="Amiri, serif">أميري</option>
+                        <option value="'Traditional Arabic', serif">الخط العربي التقليدي</option>
+                        <option value="'Segoe UI', sans-serif">سيغوي</option>
+                    </select>
+                </div>
+                
+                <div class="settings-option">
+                    <label for="lineSpacingSelect">تباعد الأسطر:</label>
+                    <select id="lineSpacingSelect">
+                        <option value="1.8">واسع</option>
+                        <option value="1.6" selected>متوسط</option>
+                        <option value="1.4">ضيق</option>
+                    </select>
+                </div>
+                
+                <div class="settings-option">
+                    <label for="verseDisplaySelect">عرض الآيات:</label>
+                    <select id="verseDisplaySelect">
+                        <option value="continuous">متواصل</option>
+                        <option value="separated" selected>منفصلة</option>
+                    </select>
+                </div>
+                
+                <div class="settings-option">
+                    <label>
+                        <input type="checkbox" id="showTashkeel"> إظهار التشكيل
+                    </label>
+                </div>
+                
+                <div class="settings-option">
+                    <label>
+                        <input type="checkbox" id="autoScroll"> التمرير التلقائي
+                    </label>
+                </div>
+                
+                <div class="settings-actions">
+                    <button id="resetSettings" class="btn secondary">استعادة الإعدادات الافتراضية</button>
+                    <button id="saveSettings" class="btn primary">حفظ الإعدادات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- شريط التحميل -->
+    <div id="loadingBar" class="loading-bar">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>جاري تحميل القرآن الكريم...</p>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="script.js"></script>
+    
+    <!-- تسجيل Service Worker لتطبيق PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(error => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+    </script>
+</body>
+</html>
